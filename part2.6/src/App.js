@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import AddNum from './AddNum'
+import Filter from './Filter'
+import Numbers from './Numbers'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,18 +14,17 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterNames, setFilterNames] = useState ("")
 
-//filter option
+//Need for filter
 const doTheFilter =  persons.filter(names => names.name.toLowerCase().includes(filterNames.toLowerCase()))
 
  const filterEvent = (event) =>{   
   setFilterNames(event.target.value)
  }
- const namesToShow =filterNames ? doTheFilter : persons
+ 
 
 //Add name + number
 const addName = (event) =>{
     event.preventDefault()
- 
     if (persons.some(person => person.name === newName)) {
  
     alert(`${newName} is already added to phonebook`)
@@ -49,35 +51,18 @@ const handleNumberChange = (e)=>{
 }
   return (
     <div>
-      <h2>filter</h2>
-      <form>
-        <div>
-          <input onChange={filterEvent} />
-        </div>
-      </form>
-      <h2>Phonebook</h2>
-      <form onSubmit={addName}>
-        <div>
-          name:
-           <input 
-          value={newName}
-        onChange={handleNameChange}
-          />
-          <br></br>
-          number:
-           <input 
-          value ={newNumber}
-          onChange ={handleNumberChange}  
-            />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>{namesToShow.map(persons => 
-        <p key={persons.name}>{persons.name}   {persons.number}</p>
-        )}</div>
+      <Filter filterEvent={filterEvent}/>
+      
+      <AddNum addName={addName}
+              newName={newName}    
+              handleNameChange={handleNameChange}
+              newNumber={newNumber}
+              handleNumberChange={handleNumberChange}/>    
+     
+      <Numbers persons = {persons}
+               doTheFilter={doTheFilter}
+               filterNames={filterNames} />
+      
     </div>
   )
 }
