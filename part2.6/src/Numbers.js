@@ -2,8 +2,8 @@ import React from "react";
 
 const Numbers = (props) =>{
  
-    
-    const namesToShow = props.filterNames ? props.doTheFilter : props.persons;
+    const doTheFilter =  props.persons.filter(names => names.name.toLowerCase().includes(props.filterNames.toLowerCase()))
+    const namesToShow = props.filterNames ? doTheFilter : props.persons;
     return(
         <div><h2>Numbers</h2>
             <div>{namesToShow.map(persons => 

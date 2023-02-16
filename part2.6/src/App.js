@@ -15,13 +15,9 @@ const App = () => {
   const [filterNames, setFilterNames] = useState ("")
 
 //Need for filter
-const doTheFilter =  persons.filter(names => names.name.toLowerCase().includes(filterNames.toLowerCase()))
-
  const filterEvent = (event) =>{   
   setFilterNames(event.target.value)
  }
- 
-
 //Add name + number
 const addName = (event) =>{
     event.preventDefault()
@@ -60,7 +56,6 @@ const handleNumberChange = (e)=>{
               handleNumberChange={handleNumberChange}/>    
      
       <Numbers persons = {persons}
-               doTheFilter={doTheFilter}
                filterNames={filterNames} />
       
     </div>
