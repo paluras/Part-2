@@ -7,60 +7,50 @@ const Header = (props) =>{
       </div>
     )
   } 
-  
   const Total = ({courses}) =>{
-   
     return(
-  
-      <div>
+    <div>
         <p>
           Number of exercises 
-          {courses.parts.reduce((sum, alt) => {
-      return  sum + alt.exercises}, 0)
+            {courses.parts.reduce((sum, alt) => {
+          return  sum + alt.exercises}, 0)
           }
-    </p>
-      </div>
+        </p>
+    </div>
     )
-    
-  
   }
   const Part = ({courses}) =>{
       return (
         <div>
            {courses.parts.map(courses =>
             <h2 key={courses.id}>
-             {courses.name} {courses.exercises}
-              </h2>
+              {courses.name} {courses.exercises}
+            </h2>
               
             )}
         </div>
       )
     }  
   
-  const Content = ({courses}) =>{
-      
+  const Content = ({courses}) =>{   
       return(
         <div>
           <Part courses={courses}/>
-          </div>
+        </div>
       )
     }
   
-  
-    const Course = ({courses}) =>{
+  const Course = ({courses}) =>{
       return(
       <div>{courses.map(courses => 
       <div key= {courses.id}>
         <Header courses ={courses}/>
         <Content courses={courses} />
-        <Total courses = {courses} />
-             
-       
-           
-            
+        <Total courses = {courses} />    
         </div>
         )}
       </div>
       )
     }
+
     export default Course
