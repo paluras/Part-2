@@ -27,31 +27,65 @@ const App = () => {
     })
   }, [])
 
-
+           
+  const handleUpdate = (id, updatedNumber) => {
+    const personToUpdate = persons.find(person => person.id === id);
+    const updatedPerson = { ...personToUpdate, number: updatedNumber };
+    
+    services
+      .update(id, updatedPerson)
+      .then(response => {
+        setPersons(persons.map(person =>
+          person.id === id ? response.data : person
+        ));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }     
+console.log(handleUpdate);
   
 //Need for filter
  
 //Add name + number
-const addName = (event) =>{
-    event.preventDefault()
-    if (persons.some(person => person.name === newName)) {
- 
-    alert(`${newName} is already added to phonebook`)
- } else {
-    const nameObject = {
-        name: newName,
-        id: key,
-        number: newNumber 
+const addName = (event) => {
+  event.preventDefault();
+  const existingPerson = persons.find(person => person.name === newName);
+
+  if (existingPerson) {
+    if (window.confirm(`${newName} is already added to the phonebook. Replace the old number with a new one?`)) {
+      const updatedPerson = { ...existingPerson, number: newNumber };
+
+      services
+        .change(existingPerson.id, updatedPerson)
+        .then(response => {
+          setPersons(persons.map(person =>
+            person.id === existingPerson.id ? response.data : person
+          ));
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
-    services 
-    .create(nameObject)
-    .then(response => {
-      setPersons(persons.concat(response.data))
-      setNewName('')
-      setNewNumber('')
-    })
-    .catch(() =>{ alert("something Happened")
-    })
+  } else {
+    const nameObject = {
+      name: newName,
+      number: newNumber,
+      id:key
+    };
+
+    services
+      .create(nameObject)
+      .then(response => {
+        setPersons(persons.concat(response.data));
+        setNewName('');
+        setNewNumber('');
+      })
+      .catch(() => {
+        alert('Something went wrong.');
+      });
   }
 }
 
