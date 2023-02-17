@@ -9,10 +9,10 @@ import React from "react";
 
       return(
           <div>
-              <h2>filter</h2>
+              <h2>Filter</h2>
         <form>
           <div>
-            <input onChange={props.filterEvent} />
+            Filter Names :<input onChange={props.filterEvent} />
           </div>
         </form>
           </div>

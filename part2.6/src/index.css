@@ -1,0 +1,21 @@
+*{
+    padding: auto ;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+.submitButton{
+    margin-left: 10px;
+    
+    text-align: center;
+}
+
+.error {
+    color: rgb(4, 124, 0);
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }

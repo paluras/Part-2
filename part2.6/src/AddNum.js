@@ -19,9 +19,11 @@ const AddNum = (prop) =>{
           onChange ={prop.handleNumberChange}  
             />
         </div>
-        <div>
-          <button type="submit">add</button>
+        <div><br></br>
+          <button className="submitButton" type="submit">add</button>
+          
         </div>
+        <br></br>
       </form></div>
     )
 

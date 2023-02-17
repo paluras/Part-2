@@ -3,6 +3,7 @@ import AddNum from './AddNum'
 import Filter from './Filter'
 import Numbers from './Numbers'
 import services from "./services/persons"
+import Notification from './Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,6 +11,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterNames, setFilterNames] = useState ("")
   const [key, Setkey] = useState(persons.length )
+  const [errorMessage, setErrorMessage] = useState(null)
+  
   
   useEffect(() =>{
     services
@@ -34,12 +37,15 @@ const addName = (event) => {
           setPersons(persons.map(person =>
             person.id === existingPerson.id ? response.data : person
           ));
+          
           setNewName('');
           setNewNumber('');
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error=>setErrorMessage(`${updatedPerson.name} has been removed from server`));
+        setTimeout(()=>{
+          setErrorMessage(null)
+        },4000)
+      
     }
   } else {
     const nameObject = {
@@ -54,6 +60,10 @@ const addName = (event) => {
         setPersons(persons.concat(response.data));
         setNewName('');
         setNewNumber('');
+        setErrorMessage(`${nameObject.name} has been successfully added`)
+        setTimeout(()=>{
+          setErrorMessage(null)
+        },1000)
       })
       .catch(() => {
         alert('Something went wrong.');
@@ -77,7 +87,7 @@ const filterEvent = (event) =>{
   return (
     <div>
       <Filter filterEvent={filterEvent}/>
-      
+      <Notification message={errorMessage}/>
       <AddNum addName={addName}
               newName={newName}    
               handleNameChange={handleNameChange}
@@ -87,6 +97,7 @@ const filterEvent = (event) =>{
       <Numbers persons = {persons}
                filterNames={filterNames}
                setPersons={setPersons}
+               setErrorMessage={setErrorMessage}
                 />
     </div>
   )

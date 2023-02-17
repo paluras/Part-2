@@ -1,7 +1,7 @@
 import React from 'react';
 import services from './services/persons';
 
-const Numbers = ({ persons, filterNames, setPersons }) => {
+const Numbers = ({ persons, filterNames, setPersons,setErrorMessage }) => {
 
   const filteredPersons = filterNames
     ? persons.filter(person =>
@@ -15,9 +15,10 @@ const Numbers = ({ persons, filterNames, setPersons }) => {
         .then(response => {
           setPersons(persons.filter(person => person.id !== id));
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error=>setErrorMessage(`${name} has already been removed from server`));
+        setTimeout(()=>{
+          setErrorMessage(null)
+        },4000)
     }
   }
 
