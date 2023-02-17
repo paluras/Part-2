@@ -3,29 +3,34 @@ import axios from "axios"
 import AddNum from './AddNum'
 import Filter from './Filter'
 import Numbers from './Numbers'
+import services from "./services/persons"
 
 const App = () => {
   const [persons, setPersons] = useState([
-   
+    
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterNames, setFilterNames] = useState ("")
+  const [key, Setkey] = useState(persons.length )
   
+
+
+
+
   console.log(persons);
   useEffect(() =>{
-    axios
-      .get('http://localhost:3001/persons')
+    services
+      .getAll()
       .then(response => {
     setPersons(response.data)
-
-    } ) 
+    })
   }, [])
+
+
   
 //Need for filter
- const filterEvent = (event) =>{   
-  setFilterNames(event.target.value)
- }
+ 
 //Add name + number
 const addName = (event) =>{
     event.preventDefault()
@@ -35,14 +40,22 @@ const addName = (event) =>{
  } else {
     const nameObject = {
         name: newName,
-        id: newName,
-        number: newNumber
+        id: key,
+        number: newNumber 
     }
-      setPersons(persons.concat(nameObject))
+    services 
+    .create(nameObject)
+    .then(response => {
+      setPersons(persons.concat(response.data))
       setNewName('')
       setNewNumber('')
-    }
+    })
+    .catch(() =>{ alert("something Happened")
+    })
+  }
 }
+
+
 
 const handleNameChange = (event) =>{
     console.log(event.target.value);
@@ -53,6 +66,10 @@ const handleNameChange = (event) =>{
 const handleNumberChange = (e)=>{
     setNewNumber(e.target.value)
 }
+const filterEvent = (event) =>{   
+  setFilterNames(event.target.value)
+ }
+      
   return (
     <div>
       <Filter filterEvent={filterEvent}/>
@@ -64,7 +81,10 @@ const handleNumberChange = (e)=>{
               handleNumberChange={handleNumberChange}/>    
      
       <Numbers persons = {persons}
-               filterNames={filterNames} />
+               filterNames={filterNames}
+               setPersons={setPersons}
+               
+                />
       
     </div>
   )
