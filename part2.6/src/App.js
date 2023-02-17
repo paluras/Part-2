@@ -1,52 +1,24 @@
 import { useState, useEffect } from 'react'
-import axios from "axios"
 import AddNum from './AddNum'
 import Filter from './Filter'
 import Numbers from './Numbers'
 import services from "./services/persons"
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterNames, setFilterNames] = useState ("")
   const [key, Setkey] = useState(persons.length )
   
-
-
-
-
-  console.log(persons);
   useEffect(() =>{
     services
       .getAll()
       .then(response => {
     setPersons(response.data)
     })
-  }, [])
-
-           
-  const handleUpdate = (id, updatedNumber) => {
-    const personToUpdate = persons.find(person => person.id === id);
-    const updatedPerson = { ...personToUpdate, number: updatedNumber };
-    
-    services
-      .update(id, updatedPerson)
-      .then(response => {
-        setPersons(persons.map(person =>
-          person.id === id ? response.data : person
-        ));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }     
-console.log(handleUpdate);
+  }, [])    
   
-//Need for filter
- 
 //Add name + number
 const addName = (event) => {
   event.preventDefault();
@@ -89,8 +61,6 @@ const addName = (event) => {
   }
 }
 
-
-
 const handleNameChange = (event) =>{
     console.log(event.target.value);
     setNewName(event.target.value)
@@ -117,9 +87,7 @@ const filterEvent = (event) =>{
       <Numbers persons = {persons}
                filterNames={filterNames}
                setPersons={setPersons}
-               
                 />
-      
     </div>
   )
 }
